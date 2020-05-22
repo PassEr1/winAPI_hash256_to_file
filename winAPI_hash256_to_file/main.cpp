@@ -6,6 +6,8 @@
 #include <map>
 #include "cmdLinesParser.h"
 #include "MD5_calvulator.h"
+#include "HashFile.h"
+
 using namespace std;
 
 CmdLineParser fnParseComamndLinesArgs(LPCWSTR lpComamndLine, int numOfArgs)
@@ -19,24 +21,18 @@ CmdLineParser fnParseComamndLinesArgs(LPCWSTR lpComamndLine, int numOfArgs)
 
 int wmain(int argc, wchar_t** argv)
 {
-	/*LPCWSTR lpsCommandLine = GetCommandLineW();
-	CmdLineParser parser = fnParseComamndLinesArgs(lpsCommandLine, argc);
+	LPCWSTR lpsCommandLine = L"this.exe --mode md5 --filePath C:\\Users\\amitb\\Downloads\\fileToHash1.txt"; //GetCommandLineW()
+	CmdLineParser parser = fnParseComamndLinesArgs(lpsCommandLine, 5);
 
-	wstring sfileNameToHandle(*parser[L"--filePath"].wstringValue);
-	wstring sModeToPerform(*parser[L"--mode"].wstringValue);
-	*/
+	wstring sfileNameToHandle = (*parser[L"--filePath"].wstringValue);
+	wstring sModeToPerform = (*parser[L"--mode"].wstringValue);
+	
+	if (sModeToPerform == L"md5") {
+		HashFile hashForFile(sfileNameToHandle);
+		hashForFile.fnPrintHash();
+	}
 
-	const CHAR brMyMessage[] = {
-	'a', 'b', 'c'
-	};
-	const CHAR brMyMessage2[] = {
-	'd', 'e', 'f'
-	};
 
-	MD5Calculator md5Calculator;
-	md5Calculator.update((PBYTE)brMyMessage, sizeof(brMyMessage));
-	md5Calculator.update((PBYTE)brMyMessage2, sizeof(brMyMessage2));
-	md5Calculator.digest();
 
 	exit(0);
 

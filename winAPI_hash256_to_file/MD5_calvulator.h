@@ -6,14 +6,15 @@
 using namespace std;
 
 #define SUCESS(status) (((status)) >= 0)
+
 class MD5Calculator {
 
 public:
 	MD5Calculator()
 	{
-		m_setAlgorithmProvider(&m_lpAlgorithmProvider);		
-		m_setHashMaker();
-		m_allocateBufferForHashResult();
+		fnSetAlgorithmProvider(&m_lpAlgorithmProvider);		
+		fnSetHashMaker();
+		fnAllocateBufferForHashResult();
 	}
 	~MD5Calculator()
 	{
@@ -25,7 +26,7 @@ public:
 
 	
 
-	void update(PBYTE data, DWORD valid_length)
+	void fnUpdate(PBYTE data, DWORD valid_length)
 	{
 		
 		DWORD cbHashValueLen;
@@ -47,7 +48,7 @@ public:
 		}
 	}
 
-	void digest()
+	void fnDigest()
 	{
 		if (m_bIsSomethingWentWorng)
 		{
@@ -55,12 +56,15 @@ public:
 			return;
 		}
 
-		BCryptFinishHash(
-			m_phHash,
-			m_pbHashResultBuffer,
-			m_cbHashValueLen,
-			0
-		);
+		else
+		{
+			BCryptFinishHash(
+				m_phHash,
+				m_pbHashResultBuffer,
+				m_cbHashValueLen,
+				0
+			);
+		}
 
 		for (int i = 0; i < m_cbHashValueLen; i++)
 		{
@@ -69,8 +73,11 @@ public:
 
 	}
 
+
+DWORD m_cbHashValueLen;
+
 private:
-	void m_setAlgorithmProvider(BCRYPT_ALG_HANDLE* lpAlgorithmProvider)
+	void fnSetAlgorithmProvider(BCRYPT_ALG_HANDLE* lpAlgorithmProvider)
 	{
 		if (!SUCESS(BCryptOpenAlgorithmProvider(
 			lpAlgorithmProvider,
@@ -79,12 +86,11 @@ private:
 			0)
 			))
 		{
-			cout << "sdasd";
 			m_bIsSomethingWentWorng = true;
 		}
 	}
 
-	DWORD m_getPropertyFromAlgorithem(BCRYPT_ALG_HANDLE lpAlgorithmProvider, PCWSTR propertyName)
+	DWORD fnGetPropertyFromAlgorithem(BCRYPT_ALG_HANDLE lpAlgorithmProvider, PCWSTR propertyName)
 	{
 		DWORD cbData;
 		DWORD cbDataLength;
@@ -104,7 +110,7 @@ private:
 		return cbData;
 	}
 
-	void m_setHashMaker()
+	void fnSetHashMaker()
 	{
 		DWORD cbSizeOfHashMakerObject;
 		
@@ -113,7 +119,7 @@ private:
 			return;
 		}
 
-		cbSizeOfHashMakerObject = m_getPropertyFromAlgorithem(m_lpAlgorithmProvider, BCRYPT_OBJECT_LENGTH);
+		cbSizeOfHashMakerObject = fnGetPropertyFromAlgorithem(m_lpAlgorithmProvider, BCRYPT_OBJECT_LENGTH);
 
 		//Allocate Memory For Hash Maker
 		m_lpbHashMaker = (PBYTE)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, cbSizeOfHashMakerObject);
@@ -131,14 +137,14 @@ private:
 	}
 	
 
-	void m_allocateBufferForHashResult()
+	void fnAllocateBufferForHashResult()
 	{
 		if (m_bIsSomethingWentWorng)
 		{
 			return;
 		}
 
-		m_cbHashValueLen = m_getPropertyFromAlgorithem(m_lpAlgorithmProvider, BCRYPT_HASH_LENGTH);
+		m_cbHashValueLen = fnGetPropertyFromAlgorithem(m_lpAlgorithmProvider, BCRYPT_HASH_LENGTH);
 
 		//allocate the buffer for the HASH result value
 		m_pbHashResultBuffer = (LPBYTE)HeapAlloc(
@@ -152,7 +158,6 @@ private:
 	PBYTE m_lpbHashMaker = NULL;
 	BCRYPT_HASH_HANDLE m_phHash;
 	LPBYTE m_pbHashResultBuffer = NULL;
-	DWORD m_cbHashValueLen;
 
 	bool m_bIsSomethingWentWorng = false;
 
