@@ -23,10 +23,10 @@
     <ClInclude Include="cmdLinesParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MD5_calvulator.h">
+    <ClInclude Include="HashFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HashFile.h">
+    <ClInclude Include="MD5_calculator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

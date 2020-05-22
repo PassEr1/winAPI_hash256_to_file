@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include "cmdLinesParser.h"
-#include "MD5_calvulator.h"
+#include "MD5_calculator.h"
 #include "HashFile.h"
 
 using namespace std;

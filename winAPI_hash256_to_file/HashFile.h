@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <iostream>
-#include "MD5_calvulator.h"
+#include "MD5_calculator.h"
 
 using namespace std;
 

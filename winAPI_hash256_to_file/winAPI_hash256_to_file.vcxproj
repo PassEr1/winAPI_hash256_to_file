@@ -146,7 +146,7 @@
   <ItemGroup>
     <ClInclude Include="cmdLinesParser.h" />
     <ClInclude Include="HashFile.h" />
-    <ClInclude Include="MD5_calvulator.h" />
+    <ClInclude Include="MD5_calculator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
