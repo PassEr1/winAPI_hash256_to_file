@@ -44,7 +44,7 @@ public:
 		if (chunkRead.cbLen)
 			md5Calculator.fnDigest();
 		else
-			wcout << L"Error! File no data could be read." << endl;
+			wcout << L"Error! no data could be read." << endl;
 	}
 
 	~HashFile()
